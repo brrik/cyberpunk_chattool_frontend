@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-const WS_URL = "wss://cyberpunk-chat-backend.onrender.com/ws"; // 本番では wss://... に変更
+// 開発中: ローカル用
+// 本番では wss://your-backend.onrender.com/ws などに差し替え
+const WS_URL = "ws://localhost:8000/ws";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState("disconnected");
@@ -33,15 +35,17 @@ function App() {
   const isMatching = connectionStatus === "matching";
   const isChatting = connectionStatus === "chatting";
 
-  // ============================================================
-  // WebSocket 接続
-  // ============================================================
+  // ============================
+  // WebSocket接続
+  // ============================
   const openWebSocket = () => {
-    // 古い接続を完全に破棄
+    // 既存接続を確実に破棄
     if (wsRef.current) {
       try {
         wsRef.current.close();
-      } catch {}
+      } catch {
+        // ignore
+      }
     }
     wsRef.current = null;
 
@@ -69,7 +73,7 @@ function App() {
         {
           id: createId(),
           isSystem: true,
-          text: "サーバーに接続しました。相手を探しています…",
+          text: "接続中... 相手を探しています。",
         },
       ]);
 
@@ -115,7 +119,7 @@ function App() {
           {
             id: createId(),
             isSystem: true,
-            text: `${data.partnerNickname} とマッチングしました！`,
+            text: `${data.partnerNickname} とマッチングしました。`,
           },
         ]);
         return;
@@ -158,9 +162,9 @@ function App() {
         let text = "チャットが終了しました。";
 
         if (data.reason === "self_ng") {
-          text = "NGしました。新しい相手を探します。";
+          text = "あなたが NG を選択しました。新しい相手を探します。";
         } else if (data.reason === "ng_by_partner") {
-          text = "相手にNGされました。新しい相手を探します。";
+          text = "相手に NG されました。新しい相手を探します。";
         } else if (data.reason === "partner_disconnected") {
           text = "相手が切断しました。新しい相手を探します。";
         }
@@ -179,10 +183,11 @@ function App() {
           return;
         }
 
-        // 自動再接続
+        // 自動で再マッチング
         setTimeout(() => {
           openWebSocket();
         }, 50);
+
         return;
       }
     };
@@ -207,9 +212,9 @@ function App() {
     };
   };
 
-  // ============================================================
-  // 操作
-  // ============================================================
+  // ============================
+  // 操作系
+  // ============================
   const handleConnect = () => {
     if (!isDisconnected) return;
     lastActivityRef.current = Date.now();
@@ -220,6 +225,8 @@ function App() {
     setEndReason("manual");
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.close();
+    } else {
+      setConnectionStatus("disconnected");
     }
   };
 
@@ -232,7 +239,7 @@ function App() {
         {
           id: createId(),
           isSystem: true,
-          text: "送信できません（WebSocket未接続）。",
+          text: "送信できません（接続されていません）。",
         },
       ]);
       return;
@@ -265,6 +272,7 @@ function App() {
       wsRef.current?.send(JSON.stringify({ type: "stop_typing" }));
     }, 1000);
 
+    // Shift+Enterで送信
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -277,9 +285,9 @@ function App() {
     wsRef.current?.send(JSON.stringify({ type: "ng" }));
   };
 
-  // ============================================================
+  // ============================
   // 無操作1分タイムアウト
-  // ============================================================
+  // ============================
   useEffect(() => {
     const timer = setInterval(() => {
       if (!isChatting) return;
@@ -293,9 +301,9 @@ function App() {
     return () => clearInterval(timer);
   }, [isChatting]);
 
-  // ============================================================
+  // ============================
   // 自動スクロール
-  // ============================================================
+  // ============================
   useEffect(() => {
     if (messageListRef.current) {
       const el = messageListRef.current;
@@ -318,10 +326,13 @@ function App() {
     }
   };
 
+  // ============================
+  // JSX
+  // ============================
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Random Cyber Chat 1 on 1</h1>
+        <h1>1対1チャット（プロトタイプ）</h1>
       </header>
 
       {/* 接続パネル */}
@@ -390,31 +401,44 @@ function App() {
           </div>
         )}
 
+        {/* コンソール風メッセージリスト */}
         <div className="message-list" ref={messageListRef}>
           {messages.map((msg) => {
             const cls = msg.isSystem
-              ? "message system"
+              ? "console-line system"
               : msg.isSelf
-              ? "message self"
-              : "message partner";
+              ? "console-line self"
+              : "console-line partner";
 
             return (
               <div key={msg.id} className={cls}>
-                {!msg.isSystem && (
-                  <div className="message-meta">
-                    <span className="nickname">{msg.nickname}</span>
-                  </div>
+                {msg.isSystem ? (
+                  <>
+                    <span className="console-prefix">--</span>
+                    <span className="console-sep">&gt;</span>
+                    <span className="console-text">{msg.text}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="console-name">{msg.nickname}</span>
+                    <span className="console-sep">&gt;</span>
+                    <span className="console-text">{msg.text}</span>
+                  </>
                 )}
-                <div className="message-text">{msg.text}</div>
               </div>
             );
           })}
 
           {partnerTyping && (
-            <div className="typing-indicator">相手が入力中…</div>
+            <div className="console-line system">
+              <span className="console-prefix">..</span>
+              <span className="console-sep">&gt;</span>
+              <span className="console-text">相手が入力中…</span>
+            </div>
           )}
         </div>
 
+        {/* 入力欄 */}
         <div className="input-area">
           <textarea
             value={inputText}
