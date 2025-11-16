@@ -321,7 +321,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>1対1チャット（プロトタイプ）</h1>
+        <h1>Random Cyber Chat 1 on 1</h1>
       </header>
 
       {/* 接続パネル */}
