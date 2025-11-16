@@ -3,7 +3,7 @@ import "./App.css";
 
 // 開発中: ローカル用
 // 本番では wss://your-backend.onrender.com/ws などに差し替え
-const WS_URL = "ws://localhost:8000/ws";
+const WS_URL = "wss://cyberpunk-chat-backend.onrender.com/ws";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState("disconnected");
@@ -332,7 +332,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>1対1チャット（プロトタイプ）</h1>
+        <h1>Random Cyber Chat One on One</h1>
       </header>
 
       {/* 接続パネル */}
