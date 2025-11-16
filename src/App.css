@@ -1,4 +1,6 @@
-/* ===== ベース設定 ===== */
+/* ================================
+   ベースレイアウト（PCファースト）
+   ================================ */
 
 *,
 *::before,
@@ -6,393 +8,539 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-main: #050511;
+  --bg-panel: rgba(10, 10, 30, 0.9);
+  --border-neon: #3ef3ff;
+  --accent-pink: #ff4fd8;
+  --accent-yellow: #ffe66d;
+  --text-main: #f5f7ff;
+  --text-sub: #9aa0c6;
+  --system-text: #8ae6ff;
+  --self-bubble: rgba(52, 211, 153, 0.15);
+  --partner-bubble: rgba(59, 130, 246, 0.15);
+  --system-bubble: rgba(148, 163, 184, 0.16);
+  --danger: #ff4d6a;
+  --ng-color: #ff4d9a;
+  --shadow-neon: 0 0 16px rgba(62, 243, 255, 0.4);
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  background: #000014;
-  color: #e0e0ff;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, #13132b 0%, #020107 55%, #000 100%);
+  color: var(--text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* ===== アプリ全体 ===== */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
 
+/* アプリ全体コンテナ */
 .app {
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1100px;
   min-height: 100vh;
-  padding: 20px;
-
-  background: radial-gradient(circle at top, #1b0031, #000014 60%);
-  background-attachment: fixed;
-  color: #e0e0ff;
-
-  font-family: "Orbitron", "Segoe UI", sans-serif;
-  position: relative;
-  overflow-x: hidden;
+  padding: 24px 32px;
+  background: radial-gradient(circle at top left, rgba(255, 79, 216, 0.08), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(62, 243, 255, 0.08), transparent 60%);
 }
 
-/* グリッドオーバーレイ */
-.app::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-      rgba(255, 0, 200, 0.08) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0, 200, 255, 0.08) 1px,
-      transparent 1px
-    );
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* ===== ヘッダー ===== */
+/* ================================
+   ヘッダー
+   ================================ */
 
 .app-header {
-  text-align: center;
-  margin-bottom: 16px;
+  padding: 8px 0 16px;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 1.7rem;
-  color: #b44bff;
-  text-shadow: 0 0 10px #b44bff, 0 0 20px #7000ff;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-yellow);
+  text-shadow:
+    0 0 6px rgba(255, 229, 128, 0.6),
+    0 0 16px rgba(255, 229, 128, 0.4);
 }
 
-/* ===== 接続パネル ===== */
+/* ================================
+   接続パネル
+   ================================ */
 
 .connection-panel {
-  background: rgba(20, 0, 40, 0.45);
-  border: 1px solid rgba(180, 0, 255, 0.9);
-  border-radius: 10px;
-  padding: 14px 16px;
-  box-shadow: 0 0 15px rgba(120, 0, 255, 0.5);
-  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
   margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(8, 8, 26, 0.95), rgba(5, 5, 18, 0.96));
+  border-radius: 12px;
+  border: 1px solid rgba(62, 243, 255, 0.4);
+  box-shadow: var(--shadow-neon);
 }
 
 .connection-panel label {
-  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-sub);
+  min-width: 180px;
 }
 
 .connection-panel input {
-  margin-left: 8px;
-  max-width: 240px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-main);
+  outline: none;
+  /* ズーム防止のため16px以上 */
+  font-size: 16px;
 }
 
-/* 接続ボタン周り */
+.connection-panel input:focus {
+  border-color: var(--border-neon);
+  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.6);
+}
+
+/* ボタン群 */
 .connection-buttons {
-  margin-top: 10px;
+  display: flex;
+  gap: 8px;
 }
 
 .connection-buttons button {
-  margin-right: 8px;
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: radial-gradient(circle at top, rgba(62, 243, 255, 0.22), rgba(15, 23, 42, 0.98));
+  color: var(--text-main);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease;
 }
 
-/* 接続状態表示 */
+.connection-buttons button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(62, 243, 255, 0.5);
+  border-color: var(--border-neon);
+}
+
+.connection-buttons button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 0 4px rgba(62, 243, 255, 0.35);
+}
+
+.connection-buttons button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* NGボタンだけ色を変える（3番目前提） */
+.connection-buttons button:nth-child(3) {
+  border-color: rgba(255, 77, 154, 0.9);
+  background: radial-gradient(circle at top, rgba(255, 77, 154, 0.3), rgba(24, 10, 22, 0.98));
+}
+
+.connection-buttons button:nth-child(3):hover:not(:disabled) {
+  box-shadow: 0 0 14px rgba(255, 77, 154, 0.7);
+}
+
+/* 状態表示 */
 .connection-status {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #ccccff;
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-sub);
+  white-space: nowrap;
 }
 
 .connection-status strong {
-  color: #00eaff;
-  text-shadow: 0 0 8px #00eaff;
+  color: var(--accent-pink);
 }
 
-/* ===== 入力系共通 ===== */
-
-input,
-textarea {
-  background: rgba(0, 0, 20, 0.7);
-  color: #d0d0ff;
-  border: 1px solid #6f00ff;
-  border-radius: 6px;
-  padding: 8px;
-  outline: none;
-  box-shadow: inset 0 0 8px rgba(111, 0, 255, 0.4);
-}
-
-input:focus,
-textarea:focus {
-  border-color: #ff00d4;
-  box-shadow: 0 0 10px #ff00d4;
-}
-
-/* ===== ボタン ===== */
-
-button {
-  background: linear-gradient(135deg, #ff00e5, #7300ff);
-  border: none;
-  color: #fff;
-  padding: 9px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  letter-spacing: 1px;
-  font-size: 0.9rem;
-
-  box-shadow: 0 0 12px #ff00e5, inset 0 0 5px rgba(255, 255, 255, 0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 18px #ff4dff;
-}
-
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 0 10px #ff00e5;
-}
-
-button:disabled {
-  background: #333;
-  color: #777;
-  box-shadow: none;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* ===== チャットエリア ===== */
+/* ================================
+   チャットエリア
+   ================================ */
 
 .chat-area {
-  background: rgba(20, 0, 40, 0.45);
-  border: 1px solid rgba(0, 255, 255, 0.7);
-  border-radius: 10px;
-  padding: 14px 16px;
-  box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
-  backdrop-filter: blur(8px);
-
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  width: 100%;
-  height: 70vh;
+  margin-top: 8px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: radial-gradient(circle at top, rgba(17, 24, 39, 0.98), rgba(3, 7, 18, 0.98));
+  border: 1px solid rgba(82, 82, 122, 0.8);
+  box-shadow:
+    0 0 22px rgba(15, 23, 42, 0.9),
+    0 0 32px rgba(59, 130, 246, 0.3);
+  min-height: 0;
 }
 
-/* 相手情報表示欄 */
+/* 相手表示／ステータス */
 .partner-info {
-  font-size: 0.9rem;
-  color: #00eaff;
-  text-shadow: 0 0 10px #00eaff;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text-sub);
 }
 
-.room-id {
-  font-size: 0.75rem;
-  color: #bbbbff;
+.partner-info .room-id {
   margin-left: 6px;
+  font-size: 12px;
+  color: #64748b;
 }
 
-/* ===== マッチング中インジケーター ===== */
-
+/* マッチングアニメーション */
 .matching-indicator {
   position: relative;
-  margin: 8px 0 4px;
-  width: 160px;
-  height: 60px;
+  align-self: center;
+  margin: 10px 0 6px;
+  width: 140px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.matching-indicator .ring {
+.ring {
   position: absolute;
   border-radius: 999px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(62, 243, 255, 0.4);
+  animation: ringPulse 2.4s infinite ease-out;
 }
 
-.matching-indicator .ring1 {
-  width: 40px;
-  height: 40px;
-  border-color: #00eaff;
-  box-shadow: 0 0 10px #00eaff;
-  animation: ring-pulse 1.2s infinite ease-out;
+.ring1 {
+  width: 50px;
+  height: 24px;
 }
 
-.matching-indicator .ring2 {
-  width: 60px;
-  height: 60px;
-  border-color: rgba(255, 0, 230, 0.8);
-  box-shadow: 0 0 15px rgba(255, 0, 230, 0.8);
-  animation: ring-pulse 1.2s infinite ease-out;
-  animation-delay: 0.25s;
-}
-
-.matching-indicator .ring3 {
+.ring2 {
   width: 80px;
-  height: 80px;
-  border-color: rgba(0, 255, 180, 0.7);
-  box-shadow: 0 0 20px rgba(0, 255, 180, 0.7);
-  animation: ring-pulse 1.2s infinite ease-out;
-  animation-delay: 0.5s;
+  height: 32px;
+  animation-delay: 0.4s;
+}
+
+.ring3 {
+  width: 110px;
+  height: 40px;
+  animation-delay: 0.8s;
 }
 
 .matching-text {
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: #ffffff;
-  text-shadow: 0 0 8px #ffffff;
+  position: relative;
+  font-size: 12px;
+  color: var(--accent-pink);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
 }
 
-/* パルスアニメーション */
-@keyframes ring-pulse {
+@keyframes ringPulse {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.9);
     opacity: 0.9;
   }
-  70% {
-    transform: scale(1.05);
-    opacity: 0.3;
-  }
   100% {
-    transform: scale(1.1);
+    transform: scale(1.15);
     opacity: 0;
   }
 }
 
-/* ===== メッセージリスト ===== */
+/* ================================
+   メッセージリスト
+   ================================ */
 
 .message-list {
   flex: 1;
+  margin-top: 6px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
+  border: 1px solid rgba(51, 65, 85, 0.9);
   overflow-y: auto;
-  padding: 10px;
-
-  background: rgba(0, 0, 30, 0.5);
-  border: 1px solid rgba(0, 255, 255, 0.35);
-  border-radius: 6px;
-  box-shadow: inset 0 0 8px rgba(0, 100, 255, 0.5);
-
-  width: 100%;
+  min-height: 220px;
+  max-height: 480px;
 }
 
-/* スクロールバー（WebKit系用） */
+/* スクロールバー（PC時） */
 .message-list::-webkit-scrollbar {
   width: 8px;
 }
 .message-list::-webkit-scrollbar-track {
-  background: rgba(5, 0, 30, 0.9);
+  background: rgba(15, 23, 42, 0.7);
 }
 .message-list::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00eaff, #ff00e5);
-  border-radius: 4px;
+  background: linear-gradient(to bottom, #3ef3ff, #ff4fd8);
+  border-radius: 999px;
 }
 
-/* ===== メッセージ ===== */
-
+/* メッセージ共通 */
 .message {
-  margin-bottom: 12px;
-  max-width: 70%;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.message.self {
-  margin-left: auto;
-  text-align: right;
-}
-
-.message.partner {
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
 }
 
 .message.system {
-  max-width: 100%;
-  text-align: center;
+  align-items: center;
 }
 
-/* メタ情報（ニックネームなど） */
+.message.self {
+  align-items: flex-end;
+}
+
+.message.partner {
+  align-items: flex-start;
+}
+
 .message-meta {
-  font-size: 0.75rem;
-  color: #aaaaff;
-  margin-bottom: 2px;
+  font-size: 11px;
+  color: var(--text-sub);
+  margin: 0 4px 2px;
 }
 
-.nickname {
-  font-weight: bold;
+.message-meta .nickname {
+  opacity: 0.8;
 }
 
-/* メッセージ本体のバブル */
+/* バブル本体 */
 .message-text {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 8px;
-  backdrop-filter: blur(3px);
+  max-width: 70%;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 12px;
+  word-break: break-word;
   white-space: pre-wrap;
 }
 
-/* 種類ごとのバブル色 */
-
-.message.system .message-text {
-  color: #8888ff;
-  font-size: 0.8rem;
-  text-shadow: 0 0 8px #6666ff;
-  background: transparent;
-  border: none;
-}
-
+/* 自分のメッセージ */
 .message.self .message-text {
-  background: rgba(0, 200, 255, 0.25);
-  border: 1px solid #00eaff;
-  box-shadow: 0 0 10px #00eaff;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22), rgba(8, 47, 73, 0.8));
+  border: 1px solid rgba(34, 197, 94, 0.7);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
 }
 
+/* 相手のメッセージ */
 .message.partner .message-text {
-  background: rgba(255, 0, 180, 0.22);
-  border: 1px solid #ff00d4;
-  box-shadow: 0 0 10px #ff00d4;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.24), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(59, 130, 246, 0.7);
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
 }
 
-/* ===== 入力エリア ===== */
+/* システムメッセージ */
+.message.system .message-text {
+  max-width: 90%;
+  background: var(--system-bubble);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  color: var(--system-text);
+  font-size: 13px;
+}
+
+/* Typing インジケータ */
+.typing-indicator {
+  margin-top: 2px;
+  margin-left: 4px;
+  font-size: 12px;
+  color: var(--accent-pink);
+  opacity: 0.75;
+}
+
+/* ================================
+   入力エリア
+   ================================ */
 
 .input-area {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.input-area textarea {
+  flex: 1;
+  min-height: 56px;
+  max-height: 140px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.98);
+  color: var(--text-main);
+  resize: vertical;
+  outline: none;
+  /* ズーム防止：16px以上 */
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.input-area textarea:disabled {
+  opacity: 0.5;
+}
+
+.input-area textarea:focus {
+  border-color: var(--border-neon);
+  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.6);
+}
+
+.input-buttons {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.input-area textarea {
-  resize: none;
-  height: 64px;
+.input-buttons button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  background: radial-gradient(circle at top, rgba(62, 243, 255, 0.3), rgba(15, 23, 42, 0.98));
+  color: var(--text-main);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease;
 }
 
-/* 送信ボタン行 */
-.input-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+.input-buttons button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(62, 243, 255, 0.6);
+  border-color: var(--border-neon);
 }
 
-/* ===== レスポンシブ ===== */
+.input-buttons button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ================================
+   モバイル最適化（PCファースト → モバイルセカンド）
+   ================================ */
 
 @media (max-width: 768px) {
   .app {
+    padding: 12px 10px 16px;
+    max-width: 100%;
+  }
+
+  .app-header h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .connection-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .connection-panel label {
+    width: 100%;
+  }
+
+  .connection-panel input {
+    width: 100%;
+  }
+
+  .connection-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .connection-buttons button {
+    flex: 1;
+    padding: 8px 6px;
+    font-size: 13px;
+  }
+
+  .connection-status {
+    margin-left: 0;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  .chat-area {
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+
+  .partner-info {
+    font-size: 13px;
+  }
+
+  .message-list {
+    min-height: 220px;
+    max-height: none;
+    height: calc(100vh - 260px);
+    padding: 8px 6px;
+  }
+
+  .message-text {
+    max-width: 82%;
+    font-size: 13px;
+  }
+
+  .input-area {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .input-area textarea {
+    min-height: 70px;
+    max-height: 180px;
+    font-size: 16px; /* ズーム防止を維持 */
+  }
+
+  .input-buttons {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .input-buttons button {
+    flex: 0 0 auto;
+    padding-inline: 18px;
+  }
+}
+
+/* さらに小さい端末（縦のiPhone SEなど） */
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 18px;
+  }
+
+  .message-list {
+    height: calc(100vh - 250px);
+  }
+
+  .connection-panel {
     padding: 12px;
   }
 
   .chat-area {
-    height: 65vh;
-    padding: 10px;
-  }
-
-  .message {
-    max-width: 85%;
-  }
-
-  button {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-  }
-
-  .matching-indicator {
-    width: 130px;
-    height: 50px;
+    padding: 10px 8px;
   }
 }
