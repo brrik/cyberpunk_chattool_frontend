@@ -1,5 +1,5 @@
 /* ================================
-   ベースレイアウト（PCファースト）
+   ベース
    ================================ */
 
 *,
@@ -9,31 +9,29 @@
 }
 
 :root {
-  --bg-main: #050511;
-  --bg-panel: rgba(10, 10, 30, 0.9);
+  --bg-main: #050516;
+  --bg-panel: rgba(10, 10, 30, 0.95);
   --border-neon: #3ef3ff;
   --accent-pink: #ff4fd8;
   --accent-yellow: #ffe66d;
-  --text-main: #f5f7ff;
-  --text-sub: #9aa0c6;
-  --system-text: #8ae6ff;
-  --self-bubble: rgba(52, 211, 153, 0.15);
-  --partner-bubble: rgba(59, 130, 246, 0.15);
-  --system-bubble: rgba(148, 163, 184, 0.16);
+  --text-main: #f7f9ff;
+  --text-sub: #9ca3c7;
+  --system-text: #cbd5f5;
   --danger: #ff4d6a;
-  --ng-color: #ff4d9a;
-  --shadow-neon: 0 0 16px rgba(62, 243, 255, 0.4);
 }
 
+/* 背景など */
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at top, #13132b 0%, #020107 55%, #000 100%);
+  background:
+    radial-gradient(circle at top, #111827 0%, #02010a 60%, #000 100%);
   color: var(--text-main);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 body {
@@ -42,16 +40,17 @@ body {
   align-items: stretch;
 }
 
-/* アプリ全体コンテナ */
 .app {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1100px;
-  min-height: 100vh;
-  padding: 24px 32px;
-  background: radial-gradient(circle at top left, rgba(255, 79, 216, 0.08), transparent 55%),
-              radial-gradient(circle at bottom right, rgba(62, 243, 255, 0.08), transparent 60%);
+  /* ★ PCで左右余白なく広げるために max-width をやめる */
+  max-width: 100%;
+  /* ★ 左右のパディングをなくす（上下はそのまま24px） */
+  padding: 24px 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 79, 216, 0.08), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(62, 243, 255, 0.08), transparent 60%);
 }
 
 /* ================================
@@ -65,11 +64,12 @@ body {
 .app-header h1 {
   margin: 0;
   font-size: 28px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-yellow);
+  /* ★ 見出しを黄色 → ピンクに変更 */
+  color: var(--accent-pink);
   text-shadow:
-    0 0 6px rgba(255, 229, 128, 0.6),
+    0 0 6px rgba(255, 229, 128, 0.7),
     0 0 16px rgba(255, 229, 128, 0.4);
 }
 
@@ -83,10 +83,14 @@ body {
   gap: 16px;
   padding: 16px 20px;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, rgba(8, 8, 26, 0.95), rgba(5, 5, 18, 0.96));
+  background: linear-gradient(
+    135deg,
+    rgba(8, 10, 30, 0.96),
+    rgba(3, 5, 20, 0.98)
+  );
   border-radius: 12px;
-  border: 1px solid rgba(62, 243, 255, 0.4);
-  box-shadow: var(--shadow-neon);
+  border: 1px solid rgba(62, 243, 255, 0.5);
+  box-shadow: 0 0 18px rgba(62, 243, 255, 0.3);
 }
 
 .connection-panel label {
@@ -98,20 +102,20 @@ body {
   min-width: 180px;
 }
 
+/* ズーム防止のため16px以上 */
 .connection-panel input {
   padding: 6px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.96);
   color: var(--text-main);
   outline: none;
-  /* ズーム防止のため16px以上 */
   font-size: 16px;
 }
 
 .connection-panel input:focus {
   border-color: var(--border-neon);
-  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.7);
 }
 
 /* ボタン群 */
@@ -124,11 +128,15 @@ body {
   position: relative;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  background: radial-gradient(circle at top, rgba(62, 243, 255, 0.22), rgba(15, 23, 42, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: radial-gradient(
+    circle at top,
+    rgba(62, 243, 255, 0.25),
+    rgba(15, 23, 42, 0.98)
+  );
   color: var(--text-main);
   font-size: 14px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   transition:
@@ -140,13 +148,13 @@ body {
 
 .connection-buttons button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 0 12px rgba(62, 243, 255, 0.5);
+  box-shadow: 0 0 12px rgba(62, 243, 255, 0.6);
   border-color: var(--border-neon);
 }
 
 .connection-buttons button:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 0 4px rgba(62, 243, 255, 0.35);
+  box-shadow: 0 0 6px rgba(62, 243, 255, 0.4);
 }
 
 .connection-buttons button:disabled {
@@ -155,14 +163,18 @@ body {
   box-shadow: none;
 }
 
-/* NGボタンだけ色を変える（3番目前提） */
+/* 3つ目のボタンをNGとして少し赤寄り */
 .connection-buttons button:nth-child(3) {
-  border-color: rgba(255, 77, 154, 0.9);
-  background: radial-gradient(circle at top, rgba(255, 77, 154, 0.3), rgba(24, 10, 22, 0.98));
+  border-color: rgba(255, 77, 122, 0.9);
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 77, 122, 0.3),
+    rgba(24, 10, 22, 0.98)
+  );
 }
 
 .connection-buttons button:nth-child(3):hover:not(:disabled) {
-  box-shadow: 0 0 14px rgba(255, 77, 154, 0.7);
+  box-shadow: 0 0 14px rgba(255, 77, 122, 0.75);
 }
 
 /* 状態表示 */
@@ -188,15 +200,18 @@ body {
   margin-top: 8px;
   padding: 16px 20px;
   border-radius: 16px;
-  background: radial-gradient(circle at top, rgba(17, 24, 39, 0.98), rgba(3, 7, 18, 0.98));
-  border: 1px solid rgba(82, 82, 122, 0.8);
+  background: radial-gradient(
+      circle at top,
+      rgba(17, 24, 39, 0.98),
+      rgba(3, 7, 18, 0.98)
+    );
+  border: 1px solid rgba(75, 85, 99, 0.9);
   box-shadow:
     0 0 22px rgba(15, 23, 42, 0.9),
-    0 0 32px rgba(59, 130, 246, 0.3);
+    0 0 32px rgba(59, 130, 246, 0.35);
   min-height: 0;
 }
 
-/* 相手表示／ステータス */
 .partner-info {
   font-size: 14px;
   margin-bottom: 8px;
@@ -206,10 +221,10 @@ body {
 .partner-info .room-id {
   margin-left: 6px;
   font-size: 12px;
-  color: #64748b;
+  color: #6b7280;
 }
 
-/* マッチングアニメーション */
+/* マッチングインジケータ */
 .matching-indicator {
   position: relative;
   align-self: center;
@@ -249,8 +264,8 @@ body {
   position: relative;
   font-size: 12px;
   color: var(--accent-pink);
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
 }
 
 @keyframes ringPulse {
@@ -265,7 +280,7 @@ body {
 }
 
 /* ================================
-   メッセージリスト
+   メッセージリスト（コンソール風）
    ================================ */
 
 .message-list {
@@ -273,29 +288,30 @@ body {
   margin-top: 6px;
   padding: 10px 8px;
   border-radius: 12px;
-  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
-  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: radial-gradient(
+      circle at top left,
+      rgba(15, 23, 42, 0.98),
+      rgba(2, 6, 23, 0.98)
+    );
+  border: 1px solid rgba(51, 65, 85, 0.95);
   overflow-y: auto;
   min-height: 220px;
   max-height: 480px;
 }
 
-/* スクロールバー（PC時） */
+/* スクロールバー（PC） */
 .message-list::-webkit-scrollbar {
   width: 8px;
 }
 .message-list::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(15, 23, 42, 0.8);
 }
 .message-list::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #3ef3ff, #ff4fd8);
   border-radius: 999px;
 }
 
-/* ================================
-   コンソール風メッセージ表示
-   ================================ */
-
+/* コンソール行 */
 .console-line {
   display: flex;
   align-items: baseline;
@@ -305,17 +321,17 @@ body {
   font-size: 13px;
   line-height: 1.6;
   margin-bottom: 4px;
-  white-space: pre-wrap; /* 改行を保持 */
+  white-space: pre-wrap;
   word-break: break-word;
 }
 
-/* 自分・相手・システムで最小限の差だけ */
+/* 自分／相手／システムで色を変えるだけ */
 .console-line.self {
-  color: var(--text-main);
+  color: #a7f3d0;
 }
 
 .console-line.partner {
-  color: var(--text-main);
+  color: #bfdbfe;
 }
 
 .console-line.system {
@@ -323,34 +339,26 @@ body {
   opacity: 0.9;
 }
 
-/* "UserName" 部分 */
+/* 名前部分 */
 .console-name {
   font-weight: 600;
 }
 
-/* ">" の部分 */
+/* ">" 部分 */
 .console-sep {
   padding: 0 2px;
+  color: #e5e7eb;
 }
 
-/* 本文部分 */
+/* テキスト部分 */
 .console-text {
   flex: 1;
 }
 
-/* システム行用 "--" など */
+/* システム用 "--" / ".." など */
 .console-prefix {
-  color: var(--accent-yellow);
+  color: #fbbf24;
   font-weight: 600;
-}
-
-/* Typing インジケータ（旧クラス、今は未使用だが残しておく） */
-.typing-indicator {
-  margin-top: 2px;
-  margin-left: 4px;
-  font-size: 12px;
-  color: var(--accent-pink);
-  opacity: 0.75;
 }
 
 /* ================================
@@ -365,18 +373,18 @@ body {
   align-items: flex-end;
 }
 
+/* ズーム防止のため16px以上 */
 .input-area textarea {
   flex: 1;
   min-height: 56px;
   max-height: 140px;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.85);
   background: rgba(15, 23, 42, 0.98);
   color: var(--text-main);
   resize: vertical;
   outline: none;
-  /* ズーム防止：16px以上 */
   font-size: 16px;
   line-height: 1.5;
 }
@@ -387,7 +395,7 @@ body {
 
 .input-area textarea:focus {
   border-color: var(--border-neon);
-  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(62, 243, 255, 0.7);
 }
 
 .input-buttons {
@@ -400,10 +408,14 @@ body {
   padding: 8px 16px;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.9);
-  background: radial-gradient(circle at top, rgba(62, 243, 255, 0.3), rgba(15, 23, 42, 0.98));
+  background: radial-gradient(
+    circle at top,
+    rgba(62, 243, 255, 0.3),
+    rgba(15, 23, 42, 0.98)
+  );
   color: var(--text-main);
   font-size: 14px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   transition:
@@ -426,11 +438,12 @@ body {
 }
 
 /* ================================
-   モバイル最適化（PCファースト → モバイルセカンド）
+   モバイル最適化（PCファースト→モバイル）
    ================================ */
 
 @media (max-width: 768px) {
   .app {
+    /* モバイルでは従来どおり、左右に少し余白を残す */
     padding: 12px 10px 16px;
     max-width: 100%;
   }
@@ -499,7 +512,7 @@ body {
   .input-area textarea {
     min-height: 70px;
     max-height: 180px;
-    font-size: 16px; /* ズーム防止を維持 */
+    font-size: 16px; /* ズーム防止維持 */
   }
 
   .input-buttons {
@@ -514,7 +527,6 @@ body {
   }
 }
 
-/* さらに小さい端末（縦のiPhone SEなど） */
 @media (max-width: 480px) {
   .app-header h1 {
     font-size: 18px;
