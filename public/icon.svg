@@ -1,0 +1,90 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 背景グラデーション -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050816"></stop>
+      <stop offset="50%" stop-color="#05010F"></stop>
+      <stop offset="100%" stop-color="#000000"></stop>
+    </linearGradient>
+
+    <!-- 外枠グロー -->
+    <radialGradient id="borderGlow" cx="50%" cy="0%" r="90%">
+      <stop offset="0%" stop-color="#3EF3FF" stop-opacity="0.9"></stop>
+      <stop offset="40%" stop-color="#3EF3FF" stop-opacity="0.05"></stop>
+      <stop offset="100%" stop-color="#3EF3FF" stop-opacity="0"></stop>
+    </radialGradient>
+
+    <!-- 左バブル（自分） -->
+    <linearGradient id="selfBubble" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38E3A5" stop-opacity="0.95"></stop>
+      <stop offset="100%" stop-color="#1C9C7D" stop-opacity="0.9"></stop>
+    </linearGradient>
+
+    <!-- 右バブル（相手） -->
+    <linearGradient id="partnerBubble" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5D5BFF" stop-opacity="0.95"></stop>
+      <stop offset="100%" stop-color="#9F40FF" stop-opacity="0.9"></stop>
+    </linearGradient>
+
+    <!-- 中央の1:1ライン用グラデーション -->
+    <linearGradient id="linkLine" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#3EF3FF"></stop>
+      <stop offset="50%" stop-color="#FF4FD8"></stop>
+      <stop offset="100%" stop-color="#FFE66D"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="url(#bgGrad)"></rect>
+
+  <!-- 外周グロー -->
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="url(#borderGlow)"></rect>
+
+  <!-- 外枠ライン -->
+  <rect x="12" y="12" width="232" height="232" rx="44" fill="none" stroke="#3EF3FF" stroke-opacity="0.65" stroke-width="2.5"></rect>
+
+  <!-- 背景に薄いグリッド風ライン -->
+  <g opacity="0.18" stroke="#2A3048" stroke-width="1">
+    <path d="M64 40 L64 216"></path>
+    <path d="M128 40 L128 216"></path>
+    <path d="M192 40 L192 216"></path>
+    <path d="M40 80 L216 80"></path>
+    <path d="M40 144 L216 144"></path>
+  </g>
+
+  <!-- 中央の 1:1 リンクライン -->
+  <g opacity="0.9">
+    <path d="M88 128 H168" stroke="url(#linkLine)" stroke-width="5" stroke-linecap="round"></path>
+    <!-- 1:1 を抽象的に示す2点 -->
+    <circle cx="104" cy="128" r="5" fill="#3EF3FF"></circle>
+    <circle cx="152" cy="128" r="5" fill="#FF4FD8"></circle>
+  </g>
+
+  <!-- 左の吹き出し（自分） -->
+  <g transform="translate(40,80)">
+    <!-- バブル本体 -->
+    <rect x="0" y="0" width="90" height="64" rx="16" fill="url(#selfBubble)" stroke="#7CFFD5" stroke-width="2"></rect>
+    <!-- テール -->
+    <path d="M32 64 L44 80 L48 64 Z" fill="url(#selfBubble)" stroke="#7CFFD5" stroke-width="2" stroke-linejoin="round"></path>
+    <!-- テキストっぽいライン -->
+    <g stroke="#E6FFF7" stroke-width="3" stroke-linecap="round" opacity="0.9">
+      <path d="M18 20 H68"></path>
+      <path d="M18 32 H60"></path>
+      <path d="M18 44 H46"></path>
+    </g>
+  </g>
+
+  <!-- 右の吹き出し（相手） -->
+  <g transform="translate(126,104)">
+    <!-- バブル本体 -->
+    <rect x="0" y="0" width="90" height="64" rx="16" fill="url(#partnerBubble)" stroke="#C88CFF" stroke-width="2"></rect>
+    <!-- テール（上向きに軽くずらす） -->
+    <path d="M58 0 L70 -16 L74 0 Z" fill="url(#partnerBubble)" stroke="#C88CFF" stroke-width="2" stroke-linejoin="round"></path>
+    <!-- テキストっぽいライン -->
+    <g stroke="#F8F0FF" stroke-width="3" stroke-linecap="round" opacity="0.9">
+      <path d="M18 18 H72"></path>
+      <path d="M18 30 H60"></path>
+      <path d="M18 42 H42"></path>
+    </g>
+  </g>
+</svg>
