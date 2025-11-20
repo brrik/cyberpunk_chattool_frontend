@@ -516,18 +516,19 @@ body {
   }
 
   .input-area {
+    width: 100%;
     flex-direction: column;
     gap: 6px;
   }
 
   .input-area textarea {
+    width: 100%;
     min-height: 70px;
     max-height: 180px;
     font-size: 16px;
   }
 
   .input-buttons {
-    width: 100%;
     flex-direction: row;
     justify-content: flex-end;
   }
